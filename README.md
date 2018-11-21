@@ -12,3 +12,5 @@ winequality-red.csv, winequality-white.csv - файлы с данными
 model, scaler - файл с обученой моделью и "нормализатором".
 
 Для запуска понадобятся numpy(>=1.15), scikit-learn(>=0.20), pandas (>=0.23), catboost(>=0.10), sklear-evaluation(>=0.4), flask(>=1.0)
+
+P.S. Вроде всё работает, но если нет, а считаете что должно, пишите сюда gavrin_s@mail.ru.
