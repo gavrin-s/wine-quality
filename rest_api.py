@@ -12,15 +12,14 @@ def predict():
     df = pd.DataFrame(json_, index=[0], columns=columns)
     df = df[columns]
 
-    # если есть пропуски в запросе, заполняем медианой
     nan_cols = df.columns[df.isnull().values[0]]
     if nan_cols.any():
-        source = pd.read_csv('winequality-white.csv', sep=';')
         for col in nan_cols:
             if col == 'color':
                 df.loc[0, col] = 'white'
                 continue
-            df.loc[0, col] = source[col].median()
+            # df.loc[0, col] = source[col].median()
+            df.loc[0, col] = filler[col]
 
     map_ = {'red': 0, 'white': 1}
     df['color'] = df['color'].map(map_)
@@ -30,8 +29,8 @@ def predict():
     X = df.values.reshape(1, -1)
     X_scaled = scaler.transform(X)
 
-    predict = np.round(model.predict(X_scaled)).astype(np.int8)[0]
-    return jsonify({'prediction': '{}'.format(predict)})
+    prediction = np.round(model.predict(X_scaled)).astype(np.int8)[0]
+    return jsonify({'prediction': '{}'.format(prediction)})
 
 
 if __name__ == '__main__':
@@ -44,20 +43,14 @@ if __name__ == '__main__':
             'volatile acidity']
     sqrts = ['citric acid']
 
+    filler = {'fixed acidity': 7.0, 'volatile acidity': 0.29,
+              'citric acid': 0.31, 'residual sugar': 3.0,
+              'chlorides': 0.047, 'free sulfur dioxide': 29.0,
+              'total sulfur dioxide': 118.0, 'density': 0.99488,
+              'pH': 3.21, 'sulphates': 0.51,
+              'alcohol': 10.3, 'quality': 6.0}
+
     scaler = joblib.load('scaler')
     model = joblib.load('model')
 
-    dict_pred = {'fixed acidity': 11.2,
-                 'volatile acidity': 0.28,
-                 'citric acid': 0.56,
-                 'residual sugar': 1.9,
-                 'chlorides': 0.075,
-                 'free sulfur dioxide': 17,
-                 'total sulfur dioxide': 60,
-                 'density': 0.998,
-                 'pH': 3.16,
-                 'sulphates': 0.58,
-                 'alcohol': 9.8,
-                 'color': 'red'
-                 }
     app.run(port=9999)
