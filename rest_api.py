@@ -53,4 +53,4 @@ if __name__ == '__main__':
     scaler = joblib.load('scaler')
     model = joblib.load('model')
 
-    app.run(port=9999)
+    app.run(port=5000)
