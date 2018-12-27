@@ -6,12 +6,12 @@ RUN mkdir /ds
 
 EXPOSE 5000
 
-ADD model /ds/model
-ADD scaler /ds/scaler
-ADD rest_api.py /ds/rest_api.py
-ADD ./requirements.txt /
+COPY model /ds/model
+COPY scaler /ds/scaler
+COPY rest_api.py /ds/rest_api.py
+COPY requirements.txt /
 
 RUN pip3 install -r requirements.txt
 
 WORKDIR /ds
-ENTRYPOINT ["python3", "rest_api.py"]
+CMD ["python3", "rest_api.py"]
