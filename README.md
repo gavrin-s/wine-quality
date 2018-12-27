@@ -8,6 +8,8 @@
 
 Для запуска rest api необходимо запустить rest_api.py (например из консоли python3 rest_api.py). Через тетрадку endpoint request.ipynb выполняются запросы post запросы к серверу.
 
+Для запуска докера нужно выполнить "docker build -t wine ." и затем "docker run --net=host wine"
+
 winequality-red.csv, winequality-white.csv - файлы с данными
 model, scaler - файл с обученой моделью и "нормализатором".
 
