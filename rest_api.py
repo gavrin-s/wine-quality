@@ -2,6 +2,9 @@ import pandas as pd
 from sklearn.externals import joblib
 import numpy as np
 from flask import Flask, jsonify, request
+import warnings
+
+warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
@@ -18,7 +21,6 @@ def predict():
             if col == 'color':
                 df.loc[0, col] = 'white'
                 continue
-            # df.loc[0, col] = source[col].median()
             df.loc[0, col] = filler[col]
 
     map_ = {'red': 0, 'white': 1}
@@ -53,4 +55,4 @@ if __name__ == '__main__':
     scaler = joblib.load('scaler')
     model = joblib.load('model')
 
-    app.run(port=5000)
+    app.run(port=9999, host="0.0.0.0")

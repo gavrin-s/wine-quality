@@ -1,7 +1,7 @@
-{"fixed acidity": 7.8, "volatile acidity": 0.760,
- "citric acid": 0.2, "residual sugar": 2.6,
- "chlorides": 0.092, "free sulfur dioxide": 15,
- "total sulfur dioxide": 54, "density": 0.997,
- "pH": 3.26, "sulphates": 0.12,
- "alcohol": 6, "color": "white"
+{"fixed acidity": 6.6, "volatile acidity": 0.17,
+ "citric acid": 0.38, "residual sugar": 1.5,
+ "chlorides": 0.032, "free sulfur dioxide": 28,
+ "total sulfur dioxide": 112, "density": 0.9914,
+ "pH": 3.25, "sulphates": 0.55,
+ "alcohol": 11.4, "color": "white"
 }
