@@ -6,12 +6,12 @@ RUN mkdir /ds
 
 EXPOSE 9999
 
-COPY model /ds/model
-COPY scaler /ds/scaler
-COPY requirements.txt /
+COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
-COPY rest_api.py /ds/rest_api.py
-
+# лишний раз скопируем requirements.txt, ну и ладно
+COPY . /ds
 WORKDIR /ds
-CMD ["python3", "rest_api.py"]
+
+
+ENTRYPOINT ["python3", "rest_api.py"]

@@ -1,16 +1,34 @@
+import time
+
 import pandas as pd
 from sklearn.externals import joblib
 import numpy as np
 from flask import Flask, jsonify, request
+import redis
 import warnings
 
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
+cache = redis.Redis(host='redis', port=6379)
+
+
+def get_hit_count():
+    retries = 5
+    while True:
+        try:
+            return cache.incr('hits')
+        except redis.exceptions.ConnectionError as exc:
+            if retries == 0:
+                raise exc
+            retries -= 1
+            time.sleep(0.5)
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    count = get_hit_count()
+
     json_ = request.json
     df = pd.DataFrame(json_, index=[0], columns=columns)
     df = df[columns]
@@ -32,7 +50,8 @@ def predict():
     X_scaled = scaler.transform(X)
 
     prediction = np.round(model.predict(X_scaled)).astype(np.int8)[0]
-    return jsonify({'prediction': '{}'.format(prediction)})
+    return jsonify({"prediction": '{}'.format(prediction),
+                    "count": "{}".format(count)})
 
 
 if __name__ == '__main__':
