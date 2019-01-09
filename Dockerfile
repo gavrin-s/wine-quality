@@ -7,6 +7,5 @@ EXPOSE 9999
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
-# лишний раз скопируем requirements.txt, ну и ладно
 COPY . /
 ENTRYPOINT ["python3", "rest_api.py"]
