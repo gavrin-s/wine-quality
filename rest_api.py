@@ -18,7 +18,8 @@ def hello_world():
     """
     Method for printing hello world
     """
-    pass
+    print('Hello world!!!')
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
