@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from sklearn.externals import joblib
 import numpy as np
@@ -7,6 +9,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
+
+is_filling = int(os.environ['FILL'])
 
 
 @app.route('/predict', methods=['POST'])
@@ -19,13 +23,14 @@ def predict():
     df = df[columns]
 
     # if there are gaps filling them
-    nan_cols = df.columns[df.isnull().values[0]]
-    if nan_cols.any():
-        for col in nan_cols:
-            if col == 'color':
-                df.loc[0, col] = 'white'
-                continue
-            df.loc[0, col] = filler[col]
+    if is_filling:
+        nan_cols = df.columns[df.isnull().values[0]]
+        if nan_cols.any():
+            for col in nan_cols:
+                if col == 'color':
+                    df.loc[0, col] = 'white'
+                    continue
+                df.loc[0, col] = filler[col]
 
     # preprocessing and scaling
     map_ = {'red': 0, 'white': 1}
