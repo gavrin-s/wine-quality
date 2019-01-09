@@ -1,0 +1,26 @@
+openapi: "3.0.2"
+info:
+  version: 1.0.0
+  title: Wine Quality
+servers:
+  - url: http://0.0.0.0:9999
+paths:
+  /predict:
+    post:
+      description: File for rediction wine quality
+      requestBody:
+        description: Input params in json
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: Prediction
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  prediction:
+                    type: string
