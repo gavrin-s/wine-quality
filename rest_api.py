@@ -36,8 +36,6 @@ def predict():
 
 
 if __name__ == '__main__':
-    # add for introduction wit git flow
-    # add second feature
     columns = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
                'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
                'pH', 'sulphates', 'alcohol', 'color'
