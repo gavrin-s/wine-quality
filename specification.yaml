@@ -24,3 +24,13 @@ paths:
                 properties:
                   prediction:
                     type: string
+  /:
+    get:
+      description: Hello world request
+      responses:
+        '200':
+          description: Hello world response
+          content:
+            text/html:
+              schema:
+                type: string
