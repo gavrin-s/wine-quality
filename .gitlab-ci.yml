@@ -1,6 +1,0 @@
-before_script:
-  - docker build -t wine .
-  - docker run -p 9999:9999 wine
-run_docker:
-  script:
-    - curl -X POST -d to_predict.json  http://0.0.0.0:9999/predict
