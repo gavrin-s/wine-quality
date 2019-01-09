@@ -2,3 +2,7 @@
 *.csv
 *.md
 *.json
+data/
+.idea/
+.ipynb_checkpoints
+jupyter/
