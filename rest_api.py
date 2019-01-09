@@ -13,6 +13,14 @@ app = Flask(__name__)
 is_filling = int(os.environ['FILL'])
 
 
+@app.route('/', method=['GET'])
+def hello_world():
+    """
+    Method for printing hello world
+    """
+    print('Hello world!!!')
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     """
