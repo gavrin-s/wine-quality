@@ -5,4 +5,4 @@
 data/
 .idea/
 .ipynb_checkpoints
-jupyter/
+jupyter/;
