@@ -56,7 +56,7 @@ def predict():
     X_scaled = scaler.transform(X)
 
     prediction = np.round(model.predict(X_scaled)).astype(np.int8)
-    return jsonify({"predictions": '{}'.format(prediction)})
+    return jsonify('{}'.format(prediction))
 
 
 if __name__ == '__main__':
