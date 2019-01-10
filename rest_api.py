@@ -9,8 +9,8 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
-# is_filling = int(os.environ['FILL'])
-is_filling = 1
+is_filling = int(os.environ['FILL'])
+
 
 @app.route('/', methods=['GET'])
 def hello_world():
