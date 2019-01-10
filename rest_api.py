@@ -31,7 +31,7 @@ def get_columns():
 @app.route('/predict', methods=['POST'])
 def predict():
     """
-    Endpoint prediction wine quality
+    Endpoint predictions wine quality
     """
     json_ = request.json
     df = pd.DataFrame(json_, columns=columns)
@@ -56,7 +56,7 @@ def predict():
     X_scaled = scaler.transform(X)
 
     prediction = np.round(model.predict(X_scaled)).astype(np.int8)
-    return jsonify({"prediction": '{}'.format(prediction)})
+    return jsonify({"predictions": '{}'.format(prediction)})
 
 
 if __name__ == '__main__':
