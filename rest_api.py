@@ -21,6 +21,14 @@ def hello_world():
     return 'Hello world!!!'
 
 
+@app.route('/columns', methods=['GET'])
+def get_columns():
+    """
+    Method to get list of columns
+    """
+    return str(columns)
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     """
