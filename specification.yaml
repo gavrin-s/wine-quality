@@ -28,8 +28,18 @@ paths:
     get:
       description: Hello world request
       responses:
-        '200':
+        200:
           description: Hello world response
+          content:
+            text/html:
+              schema:
+                type: string
+  /columns:
+    get:
+      description: Request to get list of columns
+      responses:
+        200:
+          description: Response with list of columns
           content:
             text/html:
               schema:
