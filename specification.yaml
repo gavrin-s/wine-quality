@@ -49,11 +49,10 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
-                  predictions:
-                    type: array
-                    items:
-                      type: integer
+                items:
+                  type: array
+                  items:
+                    type: integer
   /:
     get:
       description: Hello world request
