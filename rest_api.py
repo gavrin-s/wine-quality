@@ -1,5 +1,4 @@
 import os
-
 import pandas as pd
 from sklearn.externals import joblib
 import numpy as np
@@ -10,8 +9,8 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
-is_filling = int(os.environ['FILL'])
-
+# is_filling = int(os.environ['FILL'])
+is_filling = 1
 
 @app.route('/', methods=['GET'])
 def hello_world():
@@ -35,7 +34,7 @@ def predict():
     Endpoint prediction wine quality
     """
     json_ = request.json
-    df = pd.DataFrame(json_, index=[0], columns=columns)
+    df = pd.DataFrame(json_, columns=columns)
     df = df[columns]
 
     # if there are gaps filling them
@@ -53,10 +52,10 @@ def predict():
     df['color'] = df['color'].map(map_)
     df[logs] = df[logs].applymap(np.log)
     df[sqrts] = df[sqrts].applymap(np.sqrt)
-    X = df.values.reshape(1, -1)
+    X = df.values.reshape(-1, len(columns))
     X_scaled = scaler.transform(X)
 
-    prediction = np.round(model.predict(X_scaled)).astype(np.int8)[0]
+    prediction = np.round(model.predict(X_scaled)).astype(np.int8)
     return jsonify({"prediction": '{}'.format(prediction)})
 
 
