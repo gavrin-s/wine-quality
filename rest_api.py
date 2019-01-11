@@ -85,27 +85,26 @@ def predict():
     return jsonify(prediction)
 
 
-if __name__ == '__main__':
-    # initialization of meta information
-    columns = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
-               'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
-               'pH', 'sulphates', 'alcohol', 'color'
-               ]
+# initialization of meta information
+columns = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar',
+           'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density',
+           'pH', 'sulphates', 'alcohol', 'color'
+           ]
 
-    logs = ['residual sugar', 'free sulfur dioxide', 'sulphates', 'chlorides', 'fixed acidity',
-            'volatile acidity']
-    sqrts = ['citric acid']
+logs = ['residual sugar', 'free sulfur dioxide', 'sulphates', 'chlorides', 'fixed acidity',
+        'volatile acidity']
+sqrts = ['citric acid']
 
-    # create json to fill gap
-    filler = {'fixed acidity': 7.0, 'volatile acidity': 0.29,
-              'citric acid': 0.31, 'residual sugar': 3.0,
-              'chlorides': 0.047, 'free sulfur dioxide': 29.0,
-              'total sulfur dioxide': 118.0, 'density': 0.99488,
-              'pH': 3.21, 'sulphates': 0.51,
-              'alcohol': 10.3, 'quality': 6.0}
+# create json to fill gap
+filler = {'fixed acidity': 7.0, 'volatile acidity': 0.29,
+          'citric acid': 0.31, 'residual sugar': 3.0,
+          'chlorides': 0.047, 'free sulfur dioxide': 29.0,
+          'total sulfur dioxide': 118.0, 'density': 0.99488,
+          'pH': 3.21, 'sulphates': 0.51,
+          'alcohol': 10.3, 'quality': 6.0}
 
-    # load model and scaler
-    scaler = joblib.load('models/scaler')
-    model = joblib.load('models/model')
+# load model and scaler
+scaler = joblib.load('models/scaler')
+model = joblib.load('models/model')
 
-    app.run(port=9999, host="0.0.0.0")
+app.run(port=9999, host="0.0.0.0")

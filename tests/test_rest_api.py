@@ -2,6 +2,14 @@
 Tests for rest_api.py
 """
 import json
+import pytest
+from rest_api import app
+
+
+@pytest.fixture
+def client():
+    test_client = app.test_client()
+    return test_client
 
 
 def post_json(client, url, json_dict):
