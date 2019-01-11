@@ -7,9 +7,14 @@ from rest_api import app
 
 
 @pytest.fixture
-def client():
+def client(request):
+    app.config["TESTING"] = True
     test_client = app.test_client()
-    return test_client
+
+    def teardown():
+        pass
+    request.addfinalizer(teardown)
+    yield test_client
 
 
 def post_json(client, url, json_dict):
@@ -38,7 +43,7 @@ def test_lack_parameters(client):
         "color": "red"
     }]
     response = post_json(client, "/predict", data)
-    response_json = response.json()
+    response_json = response.json
     assert response.status_code == 200
     assert type(response_json) == list
     assert len(response_json) == 1
@@ -61,7 +66,7 @@ def test_excess_parameters(client):
         "privetiki": "privet"  # excess!
     }]
     response = post_json(client, "/predict", data)
-    response_json = response.json()
+    response_json = response.json
     assert response.status_code == 200
     assert type(response_json) == list
     assert len(response_json) == 1
@@ -83,10 +88,8 @@ def test_invalid_value(client):
         "color": "BLACK!"
     }]
     response = post_json(client, "/predict", data)
-    response_json = response.json()
-    assert response.status_code == 515
-    assert "message" in response_json.keys()
-    assert response_json["message"] == 'Invalid Value'
+    assert response.status_code == 400
+    assert 'Invalid Value' in str(response.get_data())
 
 
 def test_invalid_type(client):
@@ -105,7 +108,5 @@ def test_invalid_type(client):
         "color": "red"
     }]
     response = post_json(client, "/predict", data)
-    response_json = response.json()
-    assert response.status_code == 515
-    assert "message" in response_json.keys()
-    assert response_json["message"] == 'Invalid Type'
+    assert response.status_code == 400
+    assert 'Invalid Type' in str(response.get_data())

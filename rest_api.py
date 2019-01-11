@@ -1,8 +1,11 @@
 import os
+
 import pandas as pd
 from sklearn.externals import joblib
 import numpy as np
 from flask import Flask, jsonify, request
+from werkzeug.exceptions import BadRequest
+
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -79,9 +82,9 @@ def predict():
 
         prediction = np.round(model.predict(X_scaled)).astype(np.int32).tolist()
     except ValueError:
-        raise InvalidData("Invalid Value")
+        raise BadRequest("Invalid Value")
     except TypeError:
-        raise InvalidData("Invalid Type")
+        raise BadRequest("Invalid Type")
     return jsonify(prediction)
 
 
