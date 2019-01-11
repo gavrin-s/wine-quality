@@ -12,6 +12,25 @@ app = Flask(__name__)
 is_filling = int(os.environ['FILL'])
 
 
+class InvalidData(Exception):
+    def __init__(self, message):
+        Exception.__init__(self)
+        self.message = message
+        self.status_code = 515
+
+    def to_dict(self):
+        rv = dict()
+        rv['message'] = self.message
+        return rv
+
+
+@app.errorhandler(InvalidData)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
+
 @app.route('/', methods=['GET'])
 def hello_world():
     """
@@ -48,14 +67,17 @@ def predict():
                 df.loc[0, col] = filler[col]
 
     # preprocessing and scaling
-    map_ = {'red': 0, 'white': 1}
-    df['color'] = df['color'].map(map_)
-    df[logs] = df[logs].applymap(np.log)
-    df[sqrts] = df[sqrts].applymap(np.sqrt)
-    X = df.values.reshape(-1, len(columns))
-    X_scaled = scaler.transform(X)
+    try:
+        map_ = {'red': 0, 'white': 1}
+        df['color'] = df['color'].map(map_)
+        df[logs] = df[logs].applymap(np.log)
+        df[sqrts] = df[sqrts].applymap(np.sqrt)
+        X = df.values.reshape(-1, len(columns))
+        X_scaled = scaler.transform(X)
 
-    prediction = np.round(model.predict(X_scaled)).astype(np.int32).tolist()
+        prediction = np.round(model.predict(X_scaled)).astype(np.int32).tolist()
+    except ValueError:
+        raise InvalidData("Invalid data")
     return jsonify(prediction)
 
 
