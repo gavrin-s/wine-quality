@@ -1,5 +1,4 @@
 import os
-
 import pandas as pd
 from sklearn.externals import joblib
 import numpy as np
@@ -32,10 +31,10 @@ def get_columns():
 @app.route('/predict', methods=['POST'])
 def predict():
     """
-    Endpoint prediction wine quality
+    Endpoint predictions wine quality
     """
     json_ = request.json
-    df = pd.DataFrame(json_, index=[0], columns=columns)
+    df = pd.DataFrame(json_, columns=columns)
     df = df[columns]
 
     # if there are gaps filling them
@@ -53,11 +52,11 @@ def predict():
     df['color'] = df['color'].map(map_)
     df[logs] = df[logs].applymap(np.log)
     df[sqrts] = df[sqrts].applymap(np.sqrt)
-    X = df.values.reshape(1, -1)
+    X = df.values.reshape(-1, len(columns))
     X_scaled = scaler.transform(X)
 
-    prediction = np.round(model.predict(X_scaled)).astype(np.int8)[0]
-    return jsonify({"prediction": '{}'.format(prediction)})
+    prediction = np.round(model.predict(X_scaled)).astype(np.int32).tolist()
+    return jsonify(prediction)
 
 
 if __name__ == '__main__':

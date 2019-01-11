@@ -7,23 +7,50 @@ servers:
 paths:
   /predict:
     post:
-      description: File for rediction wine quality
+      description: Prediction wine quality
       requestBody:
-        description: Input params in json
+        description: List of jsons
         content:
           application/json:
             schema:
-              type: object
+              type: array
+              items:
+                type: object
+                properties:
+                  fixed acidity:
+                    type: number
+                  volatile acidity:
+                    type: number
+                  citric acid:
+                    type: number
+                  residual sugar:
+                    type: number
+                  chlorides:
+                    type: number
+                  free sulfur dioxide:
+                    type: number
+                  total sulfur dioxide:
+                    type: number
+                  density:
+                    type: number
+                  pH:
+                    type: number
+                  sulphates:
+                    type: number
+                  alcohol:
+                    type: number
+                  color:
+                    type: string
+
       responses:
         200:
           description: Prediction
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  prediction:
-                    type: string
+                type: array
+                items:
+                  type: integer
   /:
     get:
       description: Hello world request
