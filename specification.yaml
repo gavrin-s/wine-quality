@@ -44,13 +44,22 @@ paths:
 
       responses:
         200:
-          description: Prediction
+          description: Response on predictions
           content:
             application/json:
               schema:
                 type: array
                 items:
                   type: integer
+        515:
+          description: Response on invalid data
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  message:
+                    type: string
   /:
     get:
       description: Hello world request
