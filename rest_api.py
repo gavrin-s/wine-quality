@@ -8,8 +8,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
-
-is_filling = int(os.environ['FILL'])
+try:
+    is_filling = int(os.environ['FILL'])
+except KeyError:
+    is_filling = 1
 
 
 class InvalidData(Exception):
@@ -79,7 +81,7 @@ def predict():
     except ValueError:
         raise InvalidData("Invalid Value")
     except TypeError:
-        raise InvalidData("Invalid type")
+        raise InvalidData("Invalid Type")
     return jsonify(prediction)
 
 
