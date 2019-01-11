@@ -77,7 +77,9 @@ def predict():
 
         prediction = np.round(model.predict(X_scaled)).astype(np.int32).tolist()
     except ValueError:
-        raise InvalidData("Invalid data")
+        raise InvalidData("Invalid Value")
+    except TypeError:
+        raise InvalidData("Invalid type")
     return jsonify(prediction)
 
 
