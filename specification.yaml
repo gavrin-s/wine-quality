@@ -48,11 +48,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: array
                 items:
-                  type: array
-                  items:
-                    type: integer
+                  type: integer
   /:
     get:
       description: Hello world request

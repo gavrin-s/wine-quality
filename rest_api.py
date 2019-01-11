@@ -55,8 +55,8 @@ def predict():
     X = df.values.reshape(-1, len(columns))
     X_scaled = scaler.transform(X)
 
-    prediction = np.round(model.predict(X_scaled)).astype(np.int8)
-    return jsonify('{}'.format(prediction))
+    prediction = np.round(model.predict(X_scaled)).astype(np.int32).tolist()
+    return jsonify(prediction)
 
 
 if __name__ == '__main__':
