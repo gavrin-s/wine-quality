@@ -7,14 +7,10 @@ from rest_api import app
 
 
 @pytest.fixture
-def client(request):
+def client():
     app.config["TESTING"] = True
     test_client = app.test_client()
-
-    def teardown():
-        pass
-    request.addfinalizer(teardown)
-    yield test_client
+    return test_client
 
 
 def post_json(client, url, json_dict):
