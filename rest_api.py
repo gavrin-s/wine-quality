@@ -39,7 +39,10 @@ def predict():
     Endpoint predictions wine quality
     """
     json_ = request.json
-    df = pd.DataFrame(json_, columns=columns)
+    try:
+        df = pd.DataFrame(json_, columns=columns)
+    except ValueError:
+        raise BadRequest("Invalid Query")
     df = df[columns]
 
     # if there are gaps filling them

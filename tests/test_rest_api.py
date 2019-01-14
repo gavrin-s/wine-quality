@@ -13,11 +13,6 @@ def client():
     return test_client
 
 
-def post_json(client, url, json_dict):
-    """Send dictionary json_dict as a json to the specified url """
-    return client.post(url, data=json.dumps(json_dict), content_type='application/json')
-
-
 def test_lack_parameters(client):
     data = [{
         "fixed acidity": 6.6,
@@ -101,3 +96,23 @@ def test_invalid_type(client):
     response = client.post("/predict", data=json.dumps(data), content_type='application/json')
     assert response.status_code == 400
     assert 'Invalid Type' in str(response.get_data())
+
+
+def test_invalid_query(client):
+    data = {
+        "fixed acidity": 6.6,
+        "volatile acidity": 0.760,
+        "citric acid": 0.4,
+        "residual sugar": 2.30,
+        "chlorides": 0.092,
+        "free sulfur dioxide": 15,
+        "total sulfur dioxide": 54,
+        "density": 0.997,
+        "pH": 3.26,
+        "sulphates": 0.65,
+        "alcohol": 9.8,
+        "color": "red"
+    }
+    response = client.post("/predict", data=json.dumps(data), content_type='application/json')
+    assert response.status_code == 400
+    assert 'Invalid Query' in str(response.get_data())
