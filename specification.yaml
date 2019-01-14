@@ -41,7 +41,7 @@ paths:
                     type: number
                   color:
                     type: string
-
+                    enum: [red, white]
       responses:
         200:
           description: Response on predictions
@@ -51,15 +51,8 @@ paths:
                 type: array
                 items:
                   type: integer
-        515:
-          description: Response on invalid data
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  message:
-                    type: string
+        400:
+          description: Bad request, invalid data.
   /:
     get:
       description: Hello world request
