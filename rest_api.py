@@ -17,25 +17,6 @@ except KeyError:
     is_filling = 1
 
 
-class InvalidData(Exception):
-    def __init__(self, message):
-        Exception.__init__(self)
-        self.message = message
-        self.status_code = 515
-
-    def to_dict(self):
-        rv = dict()
-        rv['message'] = self.message
-        return rv
-
-
-@app.errorhandler(InvalidData)
-def handle_invalid_usage(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
-
-
 @app.route('/', methods=['GET'])
 def hello_world():
     """
@@ -110,4 +91,5 @@ filler = {'fixed acidity': 7.0, 'volatile acidity': 0.29,
 scaler = joblib.load('models/scaler')
 model = joblib.load('models/model')
 
-app.run(port=9999, host="0.0.0.0")
+if __name__ == "__main__":
+    app.run(port=9999, host="0.0.0.0")

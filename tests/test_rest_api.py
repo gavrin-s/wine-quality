@@ -33,7 +33,7 @@ def test_lack_parameters(client):
          # "alcohol": 9.8,
         "color": "red"
     }]
-    response = post_json(client, "/predict", data)
+    response = client.post("/predict", data=json.dumps(data), content_type='application/json')
     response_json = response.json
     assert response.status_code == 200
     assert type(response_json) == list
@@ -56,7 +56,7 @@ def test_excess_parameters(client):
         "color": "red",
         "privetiki": "privet"  # excess!
     }]
-    response = post_json(client, "/predict", data)
+    response = client.post("/predict", data=json.dumps(data), content_type='application/json')
     response_json = response.json
     assert response.status_code == 200
     assert type(response_json) == list
@@ -78,7 +78,7 @@ def test_invalid_value(client):
         "alcohol": 9.8,
         "color": "BLACK!"
     }]
-    response = post_json(client, "/predict", data)
+    response = client.post("/predict", data=json.dumps(data), content_type='application/json')
     assert response.status_code == 400
     assert 'Invalid Value' in str(response.get_data())
 
@@ -98,6 +98,6 @@ def test_invalid_type(client):
         "alcohol": 9.8,
         "color": "red"
     }]
-    response = post_json(client, "/predict", data)
+    response = client.post("/predict", data=json.dumps(data), content_type='application/json')
     assert response.status_code == 400
     assert 'Invalid Type' in str(response.get_data())
