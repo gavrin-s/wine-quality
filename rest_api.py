@@ -11,10 +11,6 @@ import warnings
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
-try:
-    is_filling = int(os.environ['FILL'])
-except KeyError:
-    is_filling = 1
 
 
 @app.route('/', methods=['GET'])
@@ -38,6 +34,8 @@ def predict():
     """
     Endpoint predictions wine quality
     """
+    is_filling = int(os.environ.get("FILL", "1"))
+    print(is_filling)
     json_ = request.json
     try:
         df = pd.DataFrame(json_, columns=columns)
@@ -46,14 +44,15 @@ def predict():
     df = df[columns]
 
     # if there are gaps filling them
-    if is_filling:
-        nan_cols = df.columns[df.isnull().values[0]]
-        if nan_cols.any():
-            for col in nan_cols:
-                if col == 'color':
-                    df.loc[0, col] = 'white'
-                    continue
-                df.loc[0, col] = filler[col]
+    nan_cols = df.columns[df.isnull().values[0]]
+    if nan_cols.any() and is_filling:
+        for col in nan_cols:
+            if col == 'color':
+                df.loc[0, col] = 'white'
+                continue
+            df.loc[0, col] = filler[col]
+    elif nan_cols.any() and not is_filling:
+        raise BadRequest("Incorrect properties order")
 
     # preprocessing and scaling
     try:

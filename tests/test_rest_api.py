@@ -4,6 +4,7 @@ Tests for rest_api.py
 import json
 import pytest
 from rest_api import app
+import os
 
 
 @pytest.fixture
@@ -13,7 +14,7 @@ def client():
     return test_client
 
 
-def test_lack_parameters(client):
+def test_missed_fields_with_FILL(client):
     data = [{
         "fixed acidity": 6.6,
         "volatile acidity": 0.760,
@@ -28,11 +29,35 @@ def test_lack_parameters(client):
          # "alcohol": 9.8,
         "color": "red"
     }]
+    # set autocomplete
+    os.environ["FILL"] = "1"
     response = client.post("/predict", data=json.dumps(data), content_type='application/json')
     response_json = response.json
     assert response.status_code == 200
     assert type(response_json) == list
     assert len(response_json) == 1
+
+
+def test_missed_fields_without_FILL(client):
+    data = [{
+        "fixed acidity": 6.6,
+        "volatile acidity": 0.760,
+        "citric acid": 0.4,
+        "residual sugar": 2.30,
+        "chlorides": 0.092,
+        # "free sulfur dioxide": 15,
+        "total sulfur dioxide": 54,
+        "density": 0.997,
+        "pH": 3.26,
+        "sulphates": 0.65,
+         # "alcohol": 9.8,
+        "color": "red"
+    }]
+    # set autocomplete
+    os.environ["FILL"] = "0"
+    response = client.post("/predict", data=json.dumps(data), content_type='application/json')
+    assert response.status_code == 400
+    assert "Incorrect properties order" in str(response.get_data())
 
 
 def test_excess_parameters(client):
@@ -116,3 +141,25 @@ def test_invalid_query(client):
     response = client.post("/predict", data=json.dumps(data), content_type='application/json')
     assert response.status_code == 400
     assert 'Invalid Query' in str(response.get_data())
+
+
+def test_arbitrary_order(client):
+    data = [{
+        "alcohol": 9.8,
+        "citric acid": 0.4,
+        "pH": 3.26,
+        "volatile acidity": 0.760,
+        "color": "red",
+        "residual sugar": 2.30,
+        "total sulfur dioxide": 54,
+        "density": 0.997,
+        "sulphates": 0.65,
+        "chlorides": 0.092,
+        "free sulfur dioxide": 15,
+        "fixed acidity": 6.6,
+    }]
+    response = client.post("/predict", data=json.dumps(data), content_type='application/json')
+    response_json = response.json
+    assert response.status_code == 200
+    assert type(response_json) == list
+    assert len(response_json) == 1
