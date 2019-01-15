@@ -1,17 +1,5 @@
-"""
-Tests for rest_api.py
-"""
 import json
-import pytest
-from rest_api import app
 import os
-
-
-@pytest.fixture
-def client():
-    app.config["TESTING"] = True
-    test_client = app.test_client()
-    return test_client
 
 
 def test_missed_fields_with_FILL(client):
@@ -38,7 +26,7 @@ def test_missed_fields_with_FILL(client):
     assert len(response_json) == 1
 
 
-def test_missed_fields_without_FILL(client):
+def test_predic_missed_fields_without_FILL(client):
     data = [{
         "fixed acidity": 6.6,
         "volatile acidity": 0.760,
