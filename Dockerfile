@@ -9,5 +9,7 @@ RUN pip3 install -r requirements.txt
 
 ENV FILL=1
 
-COPY . /
+WORKDIR /app
+COPY . /app
+
 CMD ["gunicorn", "-b", "0.0.0.0:9999", "rest_api:app"]
