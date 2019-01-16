@@ -1,4 +1,4 @@
-FROM python:3.7.1-stretch
+FROM python:3.6.8-stretch
 
 LABEL maintainer="Sergey Gavrin <gavrin_sv@bw-sw.com>"
 
