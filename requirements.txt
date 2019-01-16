@@ -2,3 +2,5 @@ numpy>=1.15
 scikit-learn>=0.20
 pandas>=0.23
 flask>=1.0
+pytest
+gunicorn==19.9.0

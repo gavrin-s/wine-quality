@@ -1,4 +1,4 @@
-FROM python:3.7.1-stretch
+FROM python:3.6.8-stretch
 
 LABEL maintainer="Sergey Gavrin <gavrin_sv@bw-sw.com>"
 
@@ -9,5 +9,7 @@ RUN pip3 install -r requirements.txt
 
 ENV FILL=1
 
-COPY . /
-ENTRYPOINT ["python3", "rest_api.py"]
+WORKDIR /app
+COPY . /app
+
+CMD ["gunicorn", "-b", "0.0.0.0:9999", "rest_api:app"]
